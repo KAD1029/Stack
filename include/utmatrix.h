@@ -286,7 +286,7 @@ TMatrix<ValType>& TMatrix<ValType>::operator=(const TMatrix<ValType> &mt)
 		return *this;
 	delete[] this->pVector;
 	this->Size = mt.Size;
-	this->pVector = new TVector<ValType>[Size];
+	this->pVector = new TVector<ValType>[this->Size];
 	for (int i = 0; i < this->Size; i++)
 	{
 		this->pVector[i] = mt.pVector[i];
