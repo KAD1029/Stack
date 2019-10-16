@@ -63,11 +63,11 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s, int si)
 {
-	if (s < 0 || s > MAX_VECTOR_SIZE || si < 0 || si > s)
+	if (s < 0 || s > MAX_VECTOR_SIZE || si < 0 || si > MAX_VECTOR_SIZE - 1)
 		throw 1;
 	Size = s;
 	StartIndex = si;
-	pVector = new ValType[s];
+	pVector = new ValType[Size];
 	for (int i = 0; i < Size; i++)
 	{
 		pVector[i] = 0;
@@ -231,17 +231,21 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s) : TVector<TVector<ValType>>(s)
 {
+	if (s > MAX_MATRIX_SIZE)
+		throw 1;
 	for (int i = 0; i < s; i++)
 	{
-		pVector[i] = TVector<ValType>(s - i, i);
+		TVector<ValType> m(s - i, i);
+		pVector[i] = m;
 	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // конструктор копирования
 TMatrix<ValType>::TMatrix(const TMatrix<ValType> &mt)
 {
-	pVector = new TVector<ValType>[mt.Size - mt.StartIndex];
+	pVector = new TVector<ValType>[mt.Size];
 	Size = mt.Size;
+	StartIndex = mt.StartIndex;
 	for (int i = 0; i < Size; i++)
 	{
 		pVector[i] = mt.pVector[i];
